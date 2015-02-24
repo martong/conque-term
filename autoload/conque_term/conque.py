@@ -75,6 +75,9 @@ class Conque:
     # autowrap mode
     autowrap = True
 
+    # import vim plugin option
+    global_autowrap = vim.eval("g:ConqueTerm_LineWrap") == '1'
+
     # absolute coordinate mode
     absolute_coords = True
 
@@ -449,8 +452,10 @@ class Conque:
         if len(current_line) < self.c:
             current_line = current_line + ' ' * (self.c - len(current_line))
 
+        # if vim option to linewrap enabled and
         # if line is wider than screen
-        if self.c + len(input) - 1 > self.working_columns:
+        if self.global_autowrap and self.c + len(input) - 1 > self.working_columns:
+        #if False:
 
             # Table formatting hack
             if self.unwrap_tables and CONQUE_TABLE_OUTPUT.match(input):
